@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的个人博客</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://wanx.alicdn.com/wanx/1768771593501093903/text_to_image_lite_v2/6c2604cd3a654fd3bd075faae6660c9e_0_visibleWatermark.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #00ccff;
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: rgba(32, 58, 67, 0.9);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            color: #00ccff;
+        }
+        .content {
+            width: 80%;
+            max-width: 1200px;
+            margin: auto;
+            margin-top: 20px;
+            background: rgba(15, 32, 39, 0.8);
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+            border-radius: 10px;
+        }
+        .media-container img,
+        .media-container video {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        .media-container img {
+            max-height: 400px;
+            object-fit: cover;
+        }
+        h1, h2, h3 {
+            color: #ff1150;
+        }
+        .poem {
+            font-family: 'KaiTi', '楷体', serif;
+            font-size: 1.2em;
+            line-height: 1.8;
+            text-align: center;
+            color: #ffcc00;
+            margin: 20px 0;
+            padding: 15px;
+            border-left: 3px solid #ff1150;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        .poem .author {
+            font-style: italic;
+            font-size: 0.9em;
+            color: #00ccff;
+            margin-top: 10px;
+        }
+
+        /* 归档功能 */
+        .archive-section {
+            background-color: rgba(25, 50, 60, 0.6);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #ff1150;
+        }
+        .archive-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .archive-input {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #00ccff;
+            background-color: #0a1a20;
+            color: #00ccff;
+            font-size: 1em;
+        }
+        .archive-input:focus {
+            outline: none;
+            border-color: #ff1150;
+        }
+        .archive-button {
+            padding: 10px 15px;
+            background-color: #ff1150;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+        .archive-button:hover {
+            background-color: #cc0040;
+        }
+        .archive-status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        .status-success {
+            background-color: rgba(0, 200, 0, 0.2);
+            color: #00ff00;
+            border: 1px solid #00ff00;
+        }
+        .status-error {
+            background-color: rgba(200, 0, 0, 0.2);
+            color: #ff5555;
+            border: 1px solid #ff5555;
+        }
+
+        /* 视频标题+更多按钮（全局，无需在 .video-left 下重复） */
+        .video-header-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 10px;
+        }
+        .video-title {
+            margin: 0;
+            color: #ff1150;
+        }
+        .more-link-button {
+            display: inline-block;
+            padding: 6px 12px;
+            background-color: #ff1150;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.85em;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #00ccff;
+            box-shadow: 0 0 5px rgba(255, 17, 80, 0.7),
+                        inset 0 0 2px rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+        }
+        .more-link-button:hover {
+            background-color: #cc0040;
+            box-shadow: 0 0 10px rgba(255, 17, 80, 0.9),
+                        inset 0 0 3px rgba(255, 255, 255, 0.5);
+        }
+
+        /* 诗词+视频并排 */
+        .poem-video-flex {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 204, 255, 0.4);
+            border: 1px solid #ff1150;
+        }
+        .video-left {
+            flex: 1;
+            padding: 15px;
+            border: 1px dashed #00ccff;
+        }
+        .poem-right {
+            flex: 1;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 3px solid #ff1150;
+            text-align: center;
+            font-family: 'KaiTi', '楷体', serif;
+            color: #ffcc00;
+            line-height: 1.8;
+        }
+        .poem-right h3 {
+            color: #ff1150;
+            margin-top: 0;
+        }
+        .poem-right .author {
+            color: #00ccff;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+
+        /* 左右并排通用布局 */
+        .left-right-flex {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .left-content {
+            flex: 1;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            border: 1px solid #00ccff;
+            color: #00ccff;
+        }
+        .right-content {
+            flex: 1;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 8px;
+            border: 1px solid #ff1150;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .poem-video-flex,
+            .left-right-flex {
+                flex-direction: column;
+            }
+            .content {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>欢迎来到我的博客</h1>
+    </header>
+    <div class="content">
+
+        <!-- 关于生活与梦想 + 视频归档 -->
+        <div class="left-right-flex">
+            <div class="left-content">
+                <h2>关于生活与梦想</h2>
+                <p>漫漫人生路</p>
+                <p>越来越觉得</p>
+                <p>造化弄人</p>
+            </div>
+            <div class="right-content">
+                <div class="archive-section">
+                    <h3>视频归档</h3>
+                    <form id="archiveForm" class="archive-form">
+                        <label for="videoUrl">请输入视频 URL:</label>
+                        <input type="url" id="videoUrl" name="videoUrl" class="archive-input"
+                               placeholder="例如: https://www.youtube.com/watch?v=..." required>
+                        <button type="submit" class="archive-button">提交归档</button>
+                    </form>
+                    <div id="archiveStatus" class="archive-status"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 诗词+视频并排 -->
+        <div class="poem-video-flex">
+            <div class="video-left">
+                <div class="video-header-controls">
+                    <h3 class="video-title">原创露脸之新年巨制依依女神</h3>
+                    <!-- ✅ 修正：链接到目录而非具体文件 -->
+                    <a href="/drama/" class="more-link-button">更多</a>
+                </div>
+                <!-- ✅ 修正：移除 width/height 属性，避免与 CSS 冲突；移除无效 poster；src 改为绝对路径 -->
+                <video controls
+                       style="max-width:100%; aspect-ratio:16/9; object-fit:cover;">
+                    <source src="/videos_files/%E5%8E%9F%E5%88%9B%E9%9C%B2%E8%84%B8%E4%B9%8B%E6%96%B0%E5%B9%B4%E5%B7%A8%E5%88%B6%E4%BE%9D%E4%BE%9D%E5%A5%B3%E7%A5%9E%20-1080P%E9%AB%98%E6%B8%85%E5%AE%8C%E6%95%B4%E7%89%88.mp4" type="video/mp4">
+                    您的浏览器不支持视频播放。请尝试升级您的浏览器。
+                </video>
+            </div>
+            <div class="poem-right">
+                <h3>钗头凤·红酥手</h3>
+                <p><strong>（宋）陆游</strong></p>
+                <p>红酥手，黄縢酒，满城春色宫墙柳。<br>
+                东风恶，欢情薄。一怀愁绪，几年离索。<br>
+                错，错，错。</p>
+                <p>春如旧，人空瘦，泪痕红浥鲛绡透。<br>
+                桃花落，闲池阁。山盟虽在，锦书难托。<br>
+                莫，莫，莫！</p>
+            </div>
+        </div>
+
+        <!-- 风景图片 -->
+        <div class="media-container">
+            <h3>美丽的风景</h3>
+            <img src="https://wanx.alicdn.com/wanx/1768771593501093903/text_to_image_lite_v2/1721584ffaf64823a2966824d3bcca22_0_visibleWatermark.png"
+                 alt="唯美风景，包含山川和湖泊的自然美景">
+        </div>
+
+        <p>更多关于视频背后的故事...</p>
+    </div>
+
+    <script>
+        document.getElementById('archiveForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const videoUrl = document.getElementById('videoUrl').value.trim();
+            const statusDiv = document.getElementById('archiveStatus');
+
+            if (!videoUrl) {
+                showStatus('请输入有效的视频 URL。', 'error');
+                return;
+            }
+
+            // ✅ 启用真实请求（如果后端尚未就绪，可临时切回模拟模式）
+            try {
+                showStatus(`正在提交归档请求...`, 'success');
+                const resp = await fetch('/upload-video', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: videoUrl })
+                });
+                if (resp.ok) {
+                    showStatus('视频归档请求已提交！', 'success');
+                    document.getElementById('videoUrl').value = '';
+                } else {
+                    throw new Error(`服务器返回 ${resp.status}`);
+                }
+            } catch (err) {
+                // 后端未就绪时降级为模拟提示
+                showStatus(`归档失败: ${err.message}（后端接口可能尚未部署）`, 'error');
+            }
+        });
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('archiveStatus');
+            statusDiv.textContent = message;
+            statusDiv.className = 'archive-status';
+            statusDiv.classList.add(type === 'success' ? 'status-success' : 'status-error');
+            statusDiv.style.display = 'block';
+            setTimeout(() => { statusDiv.style.display = 'none'; }, 3000);
+        }
+    </script>
+</body>
+</html>
+
