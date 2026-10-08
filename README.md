@@ -1,2 +1,8 @@
-# hello-world
-My first GitHub repository!
+# 欢迎来到我的 GitHub
+
+这是我的第一个代码仓库，请多指教！
+
+## 我目前的目标
+- 熟悉 GitHub 的基本操作
+- 学习 Linux 命令
+- 体验 AI 编程助手
